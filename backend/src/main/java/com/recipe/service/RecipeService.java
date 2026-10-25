@@ -28,12 +28,6 @@ public class RecipeService {
         this.recipeRepository = recipeRepository;
         this.userRepository = userRepository;
     }
-
-    /**
-     * Lấy danh sách món ăn:
-     * - Khách (userId == null): Chỉ xem 10 món fix cứng trong database (id <= 10)
-     * - Đã đăng nhập (userId != null): Xem toàn bộ món (10 món gốc + món của các tài khoản khác + tài khoản hiện tại)
-     */
     @Transactional(readOnly = true)
     public List<RecipeSummaryDto> getRecipes(String search, Long userId) {
         Sort sort = Sort.by("id");
@@ -42,14 +36,14 @@ public class RecipeService {
         boolean isGuest = (userId == null || userId <= 0);
 
         if (isGuest) {
-            // Chế độ khách: CHỈ hiển thị 10 món fix cứng ban đầu trong database
+
             if (search == null || search.isBlank()) {
+
                 recipes = recipeRepository.findByIdLessThanEqual(10L, sort);
             } else {
                 recipes = recipeRepository.findByIdLessThanEqualAndTitleContainingIgnoreCase(10L, search.trim(), sort);
             }
         } else {
-            // Khi đăng nhập: Xem được toàn bộ món của tất cả người dùng
             if (search == null || search.isBlank()) {
                 recipes = recipeRepository.findAll(sort);
             } else {
@@ -61,7 +55,6 @@ public class RecipeService {
                 .map(RecipeSummaryDto::from)
                 .toList();
     }
-
     @Transactional(readOnly = true)
     public List<RecipeSummaryDto> getRecipes(String search) {
         return getRecipes(search, null);
@@ -71,38 +64,42 @@ public class RecipeService {
     public RecipeDetailDto getRecipeById(Long id) {
         Recipe recipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Recipe not found with id " + id));
+                        HttpStatus.NOT_FOUND, "Không tìm thấy công thức với id: " + id));
 
         return RecipeDetailDto.from(recipe);
     }
 
-    /**
-     * POST /api/recipes - Thêm món ăn
-     */
+
     @Transactional
     public RecipeDetailDto createRecipe(RecipeRequestDto request, Long userId) {
         if (request == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Recipe data cannot be null");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dữ liệu công thức không được để trống");
         }
         if (request.title() == null || request.title().isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Title is required");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tên món ăn là bắt buộc");
         }
 
         Recipe recipe = new Recipe();
+        
         if (userId != null && userId > 0) {
             userRepository.findById(userId).ifPresent(recipe::setUser);
         }
+        
+
         recipe.setTitle(request.title().trim());
         recipe.setDescription(request.description());
         recipe.setImageUrl(request.imageUrl());
         recipe.setPrepTime(request.prepTime() != null ? request.prepTime() : 0);
         recipe.setCookTime(request.cookTime() != null ? request.cookTime() : 0);
         recipe.setServings(request.servings() != null ? request.servings() : 1);
+        
+
         recipe.setCalories(request.calories() != null ? request.calories() : 0);
         recipe.setProteinG(request.proteinG() != null ? request.proteinG() : BigDecimal.ZERO);
         recipe.setCarbsG(request.carbsG() != null ? request.carbsG() : BigDecimal.ZERO);
         recipe.setFatG(request.fatG() != null ? request.fatG() : BigDecimal.ZERO);
 
+ 
         if (request.ingredients() != null) {
             for (var ingDto : request.ingredients()) {
                 if (ingDto != null && ingDto.name() != null && !ingDto.name().isBlank()) {
@@ -112,6 +109,7 @@ public class RecipeService {
                 }
             }
         }
+
 
         if (request.instruction() != null) {
             int autoStep = 1;
@@ -134,27 +132,24 @@ public class RecipeService {
         return createRecipe(request, null);
     }
 
-    /**
-     * PUT /api/recipes/{id} - Cập nhật món ăn
-     * Chỉ chủ sở hữu (user_id của món khớp với currentUserId) mới có quyền chỉnh sửa.
-     */
+
     @Transactional
     public RecipeDetailDto updateRecipe(Long id, RecipeRequestDto request, Long currentUserId) {
         if (id == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Recipe id cannot be null");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID món ăn không được để trống");
         }
         if (request == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Recipe data cannot be null");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dữ liệu cập nhật không được để trống");
         }
         if (request.title() != null && request.title().isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Title cannot be empty");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tên món ăn không được để trống");
         }
 
         Recipe recipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Recipe not found with id " + id));
+                        HttpStatus.NOT_FOUND, "Không tìm thấy món ăn với ID: " + id));
 
-        // 1. Món mặc định cố định của hệ thống (id <= 10 hoặc user == null) không thể chỉnh sửa
+    
         if (recipe.getUser() == null || (recipe.getId() != null && recipe.getId() <= 10)) {
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
@@ -162,13 +157,14 @@ public class RecipeService {
             );
         }
 
-        // 2. Chỉ tài khoản tạo ra món ăn mới có quyền chỉnh sửa
+    
         if (currentUserId == null || !recipe.getUser().getId().equals(currentUserId)) {
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
                     "Bạn chỉ có quyền chỉnh sửa món ăn do chính tài khoản của mình đăng lên."
             );
         }
+
 
         if (request.title() != null) {
             recipe.setTitle(request.title().trim());
@@ -188,6 +184,7 @@ public class RecipeService {
         if (request.servings() != null) {
             recipe.setServings(request.servings());
         }
+        
         if (request.calories() != null) {
             recipe.setCalories(request.calories());
         }
@@ -201,6 +198,7 @@ public class RecipeService {
             recipe.setFatG(request.fatG());
         }
 
+
         if (request.ingredients() != null) {
             recipe.getIngredients().clear();
             for (var ingDto : request.ingredients()) {
@@ -211,6 +209,7 @@ public class RecipeService {
                 }
             }
         }
+
 
         if (request.instruction() != null) {
             recipe.getInstruction().clear();
@@ -225,6 +224,7 @@ public class RecipeService {
             }
         }
 
+    
         Recipe updated = recipeRepository.save(recipe);
         return RecipeDetailDto.from(updated);
     }
