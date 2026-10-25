@@ -1,0 +1,21 @@
+# --- Maven ---
+target/
+# --- IDE (IntelliJ IDEA) ---
+.idea/
+
+*.iml
+*.log
+*.tmp
+
+
+# --- Operating System ---
+.DS_Store
+Thumbs.db
+
+# --- Environment & Secrets ---
+.env
+application-local.properties
+
+example.iml
+javac_args.txt
+
