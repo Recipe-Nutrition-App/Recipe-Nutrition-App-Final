@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/recipes")
 @CrossOrigin(origins = "*")
@@ -25,23 +26,18 @@ public class RecipeController {
         this.userRepository = userRepository;
     }
 
-    /**
-     * GET /api/recipes - Xem danh sách món ăn:
-     * - Chế độ khách (không có userId): Chỉ xem 10 món fix cứng trong database (id <= 10)
-     * - Đã đăng nhập (có userId): Xem toàn bộ món (10 món gốc + món của các tài khoản khác + tài khoản hiện tại)
-     */
+    
     @GetMapping
     public List<RecipeSummaryDto> getRecipes(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) Long userId,
             @RequestHeader(value = "X-User-Id", required = false) Long headerUserId) {
+        // Lấy ID người dùng từ Param hoặc Header
         Long currentUserId = userId != null ? userId : headerUserId;
         return recipeService.getRecipes(search, currentUserId);
     }
 
-    /**
-     * GET /api/recipes/{id} - Xem chi tiết món ăn (Bắt buộc phải đăng nhập/đăng ký)
-     */
+    
     @GetMapping("/{id}")
     public RecipeDetailDto getRecipeById(
             @PathVariable Long id,
@@ -49,6 +45,8 @@ public class RecipeController {
             @RequestHeader(value = "X-User-Id", required = false) Long headerUserId) {
 
         Long currentUserId = userId != null ? userId : headerUserId;
+        
+        // [CHẶN KHÁCH] Không cho xem chi tiết nếu chưa đăng nhập
         if (currentUserId == null) {
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED,
@@ -56,6 +54,7 @@ public class RecipeController {
             );
         }
 
+        // Kiểm tra tính hợp lệ của tài khoản trong CSDL
         if (!userRepository.existsById(currentUserId)) {
             throw new ResponseStatusException(
                     HttpStatus.UNAUTHORIZED,
@@ -66,9 +65,7 @@ public class RecipeController {
         return recipeService.getRecipeById(id);
     }
 
-    /**
-     * POST /api/recipes - Thêm món ăn (Yêu cầu đăng nhập)
-     */
+    
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RecipeDetailDto createRecipe(
@@ -84,10 +81,7 @@ public class RecipeController {
         return recipeService.createRecipe(request, currentUserId);
     }
 
-    /**
-     * PUT /api/recipes/{id} - Cập nhật món ăn
-     * Yêu cầu người dùng đăng nhập và chỉ chủ sở hữu của món mới được phép sửa.
-     */
+    
     @PutMapping("/{id}")
     public RecipeDetailDto updateRecipe(
             @PathVariable Long id,
