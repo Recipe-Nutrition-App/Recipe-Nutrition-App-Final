@@ -20,6 +20,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    
     @Transactional
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail().trim().toLowerCase())) {
@@ -27,6 +28,7 @@ public class AuthService {
         }
 
         String hashedPassword = passwordEncoder.encode(request.getPassword());
+        
         User user = new User(
                 request.getFullName().trim(),
                 request.getEmail().trim().toLowerCase(),
@@ -34,6 +36,7 @@ public class AuthService {
         );
 
         User savedUser = userRepository.save(user);
+        
         return new AuthResponse(savedUser.getId(), savedUser.getFullName(), savedUser.getEmail(), "Registration successful");
     }
 
