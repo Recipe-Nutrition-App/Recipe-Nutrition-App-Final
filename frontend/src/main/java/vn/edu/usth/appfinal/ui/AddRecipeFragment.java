@@ -31,23 +31,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * =========================================================================================
- * [FRONTEND - UI] FORM ĐĂNG & CHỈNH SỬA CÔNG THỨC MÓN ĂN (AddRecipeFragment - DialogFragment)
- * =========================================================================================
- * - Nhiệm vụ:
- *   1. Chạy ở chế độ Fullscreen Dialog để người dùng nhập liệu thoải mái.
- *   2. Đảm nhận cả 2 chức năng:
- *      + THÊM MỚI (POST /api/recipes?userId={userId}): Khi bấm nút (+) ở trang chủ.
- *      + CHỈNH SỬA (PUT /api/recipes/{id}?userId={userId}): Khi bấm nút Sửa ở chi tiết món ăn của chính mình.
- *   3. Nhập động không giới hạn số lượng nguyên liệu (Tên, Định lượng, Đơn vị) và các bước nấu (Tự động đánh số Bước 1, Bước 2...).
- *   4. Thu thập toàn bộ dữ liệu, kiểm tra hợp lệ và đóng gói thành JSON gửi lên Spring Boot.
- * - Câu hỏi bảo vệ:
- *   + "Cách thêm/xóa nguyên liệu động trên giao diện làm thế nào?": Xem `addIngredientRow(...)` và `llIngredientsContainer.addView(row)`.
- *   + "Cách đánh số lại các bước khi xóa 1 bước ở giữa?": Xem hàm `renumberInstructionSteps()`.
- *   + "Làm sao phân biệt Thêm mới và Sửa?": Kiểm tra biến `recipeToEdit != null`. Nếu sửa thì method = PUT, thêm thì method = POST.
- * =========================================================================================
- */
 public class AddRecipeFragment extends DialogFragment {
 
     public interface OnRecipeAddedListener {
@@ -314,15 +297,7 @@ public class AddRecipeFragment extends DialogFragment {
         }
     }
 
-    /**
-     * [LƯU MÓN ĂN - THỰC THI GỬI DỮ LIỆU LÊN SERVER]:
-     * 1. Kiểm tra session đăng nhập và validate bắt buộc tên món.
-     * 2. Lấy các chỉ số thời gian nấu và dinh dưỡng (có fallback giá trị mặc định hợp lý).
-     * 3. Duyệt container nguyên liệu để tạo JSONArray ingredients.
-     * 4. Duyệt container bước nấu để tạo JSONArray instructions.
-     * 5. Gói tất cả vào 1 đối tượng JSONObject tương thích với RecipeRequestDto phía backend.
-     * 6. Nếu sửa: gửi PUT /api/recipes/{id}. Nếu tạo mới: gửi POST /api/recipes.
-     */
+    
     private void saveRecipe() {
         if (!sessionManager.isLoggedIn()) {
             Toast.makeText(requireContext(), "Vui lòng đăng nhập tài khoản để thêm món ăn", Toast.LENGTH_SHORT).show();

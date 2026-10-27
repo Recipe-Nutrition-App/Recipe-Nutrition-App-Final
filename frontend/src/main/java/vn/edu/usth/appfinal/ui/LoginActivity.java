@@ -22,22 +22,6 @@ import vn.edu.usth.appfinal.utils.SessionManager;
 
 import java.nio.charset.StandardCharsets;
 
-/**
- * =========================================================================================
- * [FRONTEND - UI] MÀN HÌNH ĐĂNG NHẬP (LoginActivity)
- * =========================================================================================
- * - Nhiệm vụ:
- *   1. Nhận email và mật khẩu từ người dùng, kiểm tra không để trống.
- *   2. Gửi request POST tới endpoint /api/auth/login qua Volley.
- *   3. Nhận kết quả thành công -> Lưu ID, Tên, Email vào SessionManager (SharedPreferences).
- *   4. Chuyển hướng sang MainActivity.
- *   5. Cung cấp nút tiện ích cấu hình IP Backend linh hoạt ngay trên giao diện.
- * - Câu hỏi bảo vệ:
- *   + "Xử lý khi đăng nhập thất bại như thế nào?": Bắt mã lỗi từ error.networkResponse, bóc tách chuỗi JSON
- *     để hiển thị đúng thông điệp 'Sai email hoặc mật khẩu' hoặc 'Không thể kết nối máy chủ'.
- *   + "Nút cấu hình IP máy chủ nằm ở đâu?": Xem `showServerConfigDialog()`.
- * =========================================================================================
- */
 public class LoginActivity extends AppCompatActivity {
 
     private EditText etEmail, etPassword;

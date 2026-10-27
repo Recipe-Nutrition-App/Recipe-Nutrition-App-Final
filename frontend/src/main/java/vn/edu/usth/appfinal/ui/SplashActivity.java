@@ -10,15 +10,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import vn.edu.usth.appfinal.R;
 
-/**
- * =========================================================================================
- * [FRONTEND - UI] MÀN HÌNH CHỜ KHỞI ĐỘNG (SplashActivity - App Launcher)
- * =========================================================================================
- * - Là Activity đầu tiên được Android gọi khi khởi động ứng dụng (khai báo trong AndroidManifest.xml).
- * - Hiển thị logo ứng dụng trong 2 giây (SPLASH_DELAY_MS = 2000ms), sau đó tự động điều hướng sang MainActivity.
- * - Sử dụng Handler kết hợp Looper.getMainLooper() để lên lịch chuyển Activity trên Main Thread (UI Thread).
- * =========================================================================================
- */
 public class SplashActivity extends AppCompatActivity {
 
     // Thời gian hiển thị màn hình chờ (2000 mili giây = 2 giây)

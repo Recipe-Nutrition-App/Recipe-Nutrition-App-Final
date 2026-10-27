@@ -33,24 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * =========================================================================================
- * [FRONTEND - UI] FRAGMENT HIỂN THỊ DANH SÁCH CÔNG THỨC (Tab "Công thức")
- * =========================================================================================
- * - Nhiệm vụ:
- *   1. Tải danh sách món ăn từ Backend qua API GET /api/recipes (hỗ trợ tìm kiếm theo từ khóa).
- *   2. Phân quyền hiển thị:
- *      + Khách (chưa đăng nhập): Chỉ hiển thị 10 món mặc định của CSDL (id <= 10).
- *      + Đã đăng nhập: Xem toàn bộ các món của hệ thống và người dùng khác.
- *   3. Đồng bộ trạng thái yêu thích (trái tim đỏ/trắng) dựa trên danh sách món đã lưu của user.
- *   4. Bấm vào món: Khách bị chặn bằng Dialog yêu cầu đăng nhập; User đã đăng nhập được mở RecipeDetailActivity.
- *   5. Bấm vào icon trái tim trên thẻ: Cập nhật giao diện lập tức (Optimistic UI) và gửi API thêm/xóa yêu thích.
- * - Câu hỏi bảo vệ:
- *   + "Tại sao khách chỉ thấy 10 món?": Xem dòng kiểm tra `if (isGuest && r.getId() > 10) continue;`.
- *   + "Optimistic UI là gì?": Cập nhật icon trái tim ngay trước khi API phản hồi để tạo cảm giác mượt mà,
- *     nếu API trả về lỗi thì mới hoàn tác lại (rollback).
- * =========================================================================================
- */
 public class RecipesFragment extends Fragment implements RecipeAdapter.OnRecipeClickListener, RecipeAdapter.OnFavoriteClickListener {
 
     private RecyclerView rvRecipes;

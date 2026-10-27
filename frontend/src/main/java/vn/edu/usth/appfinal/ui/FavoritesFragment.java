@@ -28,22 +28,7 @@ import vn.edu.usth.appfinal.utils.SessionManager;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * =========================================================================================
- * [FRONTEND - UI] FRAGMENT MÓN ĂN YÊU THÍCH (Tab "Yêu thích")
- * =========================================================================================
- * - Nhiệm vụ:
- *   1. Kiểm tra trạng thái đăng nhập:
- *      + Nếu là khách: Hiển thị giao diện nhắc nhở đăng nhập kèm nút "Đăng nhập ngay".
- *      + Nếu đã đăng nhập: Gọi API GET /api/favorites?userId={userId} để lấy danh sách món đã lưu.
- *   2. Hiển thị danh sách món đã thả tim: Tái sử dụng RecipeAdapter.
- *   3. Xử lý bỏ yêu thích: Khi bấm vào icon trái tim trên tab này, gửi API DELETE để xóa khỏi danh sách,
- *      đồng thời loại bỏ item ra khỏi RecyclerView ngay lập tức.
- * - Câu hỏi bảo vệ:
- *   + "Giao diện khi chưa đăng nhập hoặc khi chưa có món yêu thích được cấu hình ở đâu?":
- *     Xem layoutEmpty, tvEmptyTitle, tvEmptySub, btnEmptyLogin trong hàm loadFavorites().
- * =========================================================================================
- */
+
 public class FavoritesFragment extends Fragment implements RecipeAdapter.OnRecipeClickListener, RecipeAdapter.OnFavoriteClickListener {
 
     private RecyclerView rvFavorites;

@@ -33,28 +33,6 @@ import vn.edu.usth.appfinal.utils.SessionManager;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * =========================================================================================
- * [FRONTEND - UI] MÀN HÌNH CHI TIẾT CÔNG THỨC & DINH DƯỠNG (RecipeDetailActivity)
- * =========================================================================================
- * - Nhiệm vụ:
- *   1. Chặn trực tiếp nếu khách (chưa đăng nhập) cố tình mở màn hình này.
- *   2. Tải toàn bộ chi tiết món ăn từ API (GET /api/recipes/{id}?userId={userId}).
- *   3. Hiển thị:
- *      + Ảnh món ăn (NetworkImageView + Volley ImageLoader).
- *      + Tiêu đề, mô tả, tên người chia sẻ (author).
- *      + Thời gian chuẩn bị, thời gian nấu, khẩu phần (servings).
- *      + Bảng phân tích dinh dưỡng chi tiết (Calories, Protein, Carbs, Fat).
- *      + Danh sách nguyên liệu (RecyclerView + IngredientAdapter).
- *      + Các bước hướng dẫn nấu (RecyclerView + InstructionAdapter).
- *   4. Thao tác yêu thích (Thả tim ♥): Gọi API thêm/xóa yêu thích và cập nhật icon tức thì.
- *   5. Quyền chỉnh sửa món ăn: Chỉ hiển thị nút "Sửa" nếu món ăn do chính tài khoản hiện tại tạo ra (không cho sửa 10 món mặc định của hệ thống).
- * - Câu hỏi bảo vệ:
- *   + "Thay đổi màu icon trái tim hoặc icon nút sửa ở đâu?": Xem updateFavoriteIcon() và initViews().
- *   + "Bảng dinh dưỡng hiển thị ở đâu?": Xem displayRecipe() - các TextView tvCalories, tvProtein, tvCarbs, tvFat.
- *   + "Nguyên liệu và các bước nấu hiển thị thế nào?": Xem rvIngredients và rvInstructions dùng RecyclerView lồng nhau tắt NestedScrolling.
- * =========================================================================================
- */
 public class RecipeDetailActivity extends AppCompatActivity {
 
     // Khai báo các view giao diện

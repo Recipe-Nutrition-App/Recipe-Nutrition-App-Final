@@ -21,24 +21,7 @@ import vn.edu.usth.appfinal.utils.SessionManager;
 
 import java.nio.charset.StandardCharsets;
 
-/**
- * =========================================================================================
- * [FRONTEND - UI] MÀN HÌNH ĐĂNG KÝ TÀI KHOẢN (RegisterActivity)
- * =========================================================================================
- * - Nhiệm vụ:
- *   1. Kiểm tra tính hợp lệ dữ liệu đăng ký:
- *      + Họ và tên không rỗng.
- *      + Email đúng định dạng regex (Patterns.EMAIL_ADDRESS).
- *      + Mật khẩu tối thiểu 6 ký tự.
- *      + Mật khẩu xác nhận phải trùng khớp.
- *   2. Gửi request POST /api/auth/register lên Spring Boot.
- *   3. Tự động đăng nhập (Auto-login) ngay sau khi đăng ký thành công và chuyển về MainActivity.
- * - Câu hỏi bảo vệ:
- *   + "Kiểm tra định dạng email ở đâu?": `Patterns.EMAIL_ADDRESS.matcher(email).matches()`.
- *   + "Nếu email đã được đăng ký thì app hiển thị gì?": Backend trả về 400 Bad Request kèm message,
- *     khối error callback bóc tách chuỗi JSON hiển thị lên Toast.
- * =========================================================================================
- */
+
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText etFullName, etEmail, etPassword, etConfirmPassword;

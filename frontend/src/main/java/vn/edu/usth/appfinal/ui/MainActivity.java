@@ -31,22 +31,6 @@ import vn.edu.usth.appfinal.network.ApiClient;
 import vn.edu.usth.appfinal.network.ApiEndpoints;
 import vn.edu.usth.appfinal.utils.SessionManager;
 
-/**
- * =========================================================================================
- * [FRONTEND - UI] MÀN HÌNH CHÍNH CỦA ỨNG DỤNG (MainActivity)
- * =========================================================================================
- * - Nhiệm vụ:
- *   1. Thanh Header: Hiển thị lời chào "Xin chào, {Tên}!" kèm icon hồ sơ, hoặc nút "Đăng nhập" nếu là khách.
- *   2. Thanh tìm kiếm (Search bar): Lọc món ăn thời gian thực khi gõ phím hoặc nhấn nút Search trên bàn phím ảo.
- *   3. Điều hướng Tab: 2 Tab "Công thức" và "Yêu thích" trượt mượt mà bằng ViewPager2 + FragmentStateAdapter.
- *   4. Nút bấm nổi (FloatingActionButton): Mở hộp thoại thêm công thức món ăn mới (yêu cầu đăng nhập).
- *   5. Xem & Cập nhật hồ sơ cá nhân: Bấm vào tên/avatar để mở Dialog xem và sửa thông tin cá nhân.
- * - Khi thầy cô hỏi:
- *   + "Tìm kiếm tự động cập nhật ở đâu?": Tìm `etSearchRecipe.addTextChangedListener(...)`.
- *   + "Nút đổi Tab 'Công thức' và 'Yêu thích' ở đâu?": Xem `updateTabs(position)` và `viewPager.registerOnPageChangeCallback(...)`.
- *   + "Sửa thông tin tài khoản ở đâu?": Xem `showUserProfileDialog()` và `showEditProfileDialog()`.
- * =========================================================================================
- */
 public class MainActivity extends AppCompatActivity {
 
     // Khai báo các thành phần giao diện (Views)
