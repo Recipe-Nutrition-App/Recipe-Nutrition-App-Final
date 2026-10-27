@@ -8,19 +8,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
-/**
- * =========================================================================================
- * [FRONTEND - NETWORK] HTTP CLIENT & BỘ NHỚ ĐỆM HÌNH ẢNH (Volley Singleton)
- * =========================================================================================
- * - Sử dụng thư viện Google Volley để thực hiện các cuộc gọi REST API bất đồng bộ (Asynchronous).
- * - Áp dụng mẫu thiết kế Singleton: Toàn bộ ứng dụng dùng chung 1 hàng đợi yêu cầu (RequestQueue)
- *   và 1 bộ nạp hình ảnh (ImageLoader), tránh tốn bộ nhớ và rò rỉ bộ nhớ (Memory Leak).
- * - Tích hợp LruCache (Least Recently Used) lưu trữ tối đa 50 ảnh trong RAM giúp cuộn danh sách mượt mà.
- * - Câu hỏi bảo vệ:
- *   + "Tại sao dùng Singleton ở đây?": Tránh tạo nhiều RequestQueue gây nghẽn socket và tốn tài nguyên.
- *   + "Cách tải ảnh và cache ảnh ra sao?": Dùng NetworkImageView kết hợp Volley ImageLoader và LruCache.
- * =========================================================================================
- */
+
 public class ApiClient {
     private static ApiClient instance;
     private RequestQueue requestQueue;

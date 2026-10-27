@@ -4,22 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import vn.edu.usth.appfinal.utils.SessionManager;
 
-/**
- * =========================================================================================
- * [FRONTEND - NETWORK] QUẢN LÝ TẬP TRUNG TẤT CẢ ENDPOINT REST API (ApiEndpoints)
- * =========================================================================================
- * - Nhiệm vụ:
- *   1. Chứa địa chỉ IP máy chủ backend:
- *      + Trên máy ảo Android Emulator: mặc định là "10.0.2.2:8080" (alias trỏ về localhost máy tính).
- *      + Trên điện thoại thật: IP mạng LAN máy tính (ví dụ "192.168.1.5:8080").
- *   2. Cung cấp các hàm tĩnh sinh URL cho từng chức năng: Đăng ký, đăng nhập, lấy danh sách món,
- *      xem chi tiết, thêm/sửa món, danh sách yêu thích, thông tin cá nhân.
- * - Khi thầy cô hỏi:
- *   + "App kết nối vào server ở địa chỉ nào? Muốn đổi IP server thì sửa ở đâu?":
- *     -> Trả lời: Sửa biến `host` trong ApiEndpoints.java hoặc người dùng có thể đổi động qua hộp thoại
- *        cấu hình máy chủ được lưu trong SharedPreferences (SessionManager).
- * =========================================================================================
- */
+
 public class ApiEndpoints {
     // Địa chỉ IP mặc định cho Android Emulator kết nối vào Spring Boot trên máy host (localhost:8080)
     private static String host = "10.0.2.2:8080";
